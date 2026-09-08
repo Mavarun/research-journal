@@ -1,0 +1,19 @@
+{
+  "id": "001_ko_pep_oos_sharpe",
+  "title": "KO/PEP Engle-Granger pairs - OOS Sharpe collapse",
+  "hypothesis": "KO and PEP daily adjusted closes are cointegrated; a z-score mean-reversion rule on the OLS residual should produce positive out-of-sample Sharpe after explicit spread+slippage costs in a date-based walk-forward.",
+  "data": "Yahoo Finance KO/PEP daily adjusted closes when network available; otherwise synthetic sample_ko_pep.csv (not a research-grade tape). Cited from portfolio repo Mavarun/stat-arb-pairs.",
+  "method": "Engle-Granger OLS hedge, residual z-score (train_stats freeze), enter |z|>2 exit |z|<0.5, 5+5 bps per leg costs, date-based walk-forward (~70% train). Johansen printed as diagnostic only - trading always uses Engle-Granger.",
+  "result": "In-sample spread looks mean-reverting and train Sharpe can look fine; the walk-forward / OOS window is where the edge collapses once costs and a frozen hedge meet a regime that stops cooperating. Treat IS Sharpe as self-fooling; only test columns are informative, and even those are one split on one pair.",
+  "failure_reason": "OOS Sharpe collapse relative to in-sample fit: cointegration is a sample property; static beta + frozen train z-stats + turnover costs dominate once the residual stops mean-reverting. Close-to-close assumption and Yahoo adjustments add further optimism. Not live PnL.",
+  "status": "failed",
+  "tags": ["pairs", "stat-arb", "walk-forward", "costs"],
+  "created_at": "2026-09-09",
+  "updated_at": "2026-09-09",
+  "source_repo": "https://github.com/Mavarun/stat-arb-pairs",
+  "metrics": {
+    "note": "Retrospective qualitative failure mode from portfolio write-up; no fabricated OOS Sharpe number invented here."
+  },
+  "notes": "RETROSPECTIVE NOTE from the existing stat-arb-pairs research slice README - not a live trading claim and not a fresh market run.",
+  "retrospective": true
+}

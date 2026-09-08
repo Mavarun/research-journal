@@ -1,0 +1,22 @@
+{
+  "id": "003_tabular_calibration_hurt",
+  "title": "Tabular/sigmoid calibration hurt on easy breast-cancer data",
+  "hypothesis": "Wrapping a train-fold estimator in sigmoid (Platt) calibration should improve Brier / ECE when base probabilities are miscalibrated - measure, don't assume.",
+  "data": "Public sklearn load_breast_cancer only (methodology demo). Cited from tabular-ml-pipeline and model-eval-calibration portfolio slices.",
+  "method": "Leakage-safe Pipeline + GroupKFold (tabular-ml-pipeline) and/or StratifiedKFold OOF Platt vs isotonic (model-eval-calibration). Compare raw vs calibrated accuracy, Brier, ECE.",
+  "result": "On this easy, nearly linear public set, raw logistic was already well calibrated. Sigmoid calibration slightly worsened Brier and ECE (e.g. tabular GroupKFold: raw Brier 0.021 / ECE 0.027 -> calibrated Brier 0.025 / ECE 0.048). Same pattern for LogisticRegression in model-eval-calibration (raw ECE 0.0146 -> Platt 0.0448).",
+  "failure_reason": "Extra calibration hurt on easy data: when the base model is already well calibrated, Platt/isotonic on small folds adds variance and can increase ECE/Brier. Negative result for the 'calibration always helps' assumption - which is why we measure.",
+  "status": "failed",
+  "tags": ["calibration", "tabular", "brier", "ece"],
+  "created_at": "2026-09-09",
+  "updated_at": "2026-09-09",
+  "source_repo": "https://github.com/Mavarun/tabular-ml-pipeline",
+  "metrics": {
+    "logistic_raw_brier": 0.021,
+    "logistic_raw_ece": 0.027,
+    "logistic_sigmoid_brier": 0.025,
+    "logistic_sigmoid_ece": 0.048
+  },
+  "notes": "RETROSPECTIVE NOTE from tabular-ml-pipeline / model-eval-calibration READMEs - public toy data only; not a clinical or production claim.",
+  "retrospective": true
+}
