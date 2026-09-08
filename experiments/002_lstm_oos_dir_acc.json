@@ -1,0 +1,22 @@
+{
+  "id": "002_lstm_oos_dir_acc",
+  "title": "Tiny LSTM/GRU next-bar direction - OOS dir_acc ~ chance",
+  "hypothesis": "Lagged return/vol features fed to a small LSTM/GRU can beat a logistic/ridge baseline on directional accuracy in walk-forward; costed Sharpe is the real score.",
+  "data": "Default synthetic AR(1) daily returns (seed=42, n_bars=1200) from return-forecast-lstm; optional yfinance SPY not required for this note.",
+  "method": "Walk-forward contiguous folds (train 400 / test 80); StandardScaler+logistic baseline vs 1-layer LSTM/GRU (hidden=16, seq_len=10); long/flat positions; 5 bps turnover cost; report IS vs OOS dir_acc / Sharpe / PnL.",
+  "result": "On the synthetic AR(1) slice: LSTM OOS costed dir_acc ~ 0.47 (near chance), OOS costed Sharpe ~ -1.0 while IS costed Sharpe was positive (~0.39). GRU similarly weak OOS. Neither sequence model beats the logistic baseline OOS on directional accuracy (~0.47-0.49).",
+  "failure_reason": "OOS directional accuracy collapses to coin-flip territory; IS/OOS Sharpe gap shows overfitting to fold noise on a weak AR(1) signal after costs. Tiny net + short sequences + turnover tax kill low-edge forecasts.",
+  "status": "failed",
+  "tags": ["lstm", "forecast", "walk-forward", "costs"],
+  "created_at": "2026-09-09",
+  "updated_at": "2026-09-09",
+  "source_repo": "https://github.com/Mavarun/return-forecast-lstm",
+  "metrics": {
+    "lstm_oos_dir_acc_costed": 0.4736,
+    "lstm_oos_sharpe_costed": -0.9981,
+    "lstm_is_sharpe_costed": 0.3937,
+    "baseline_oos_dir_acc_costed": 0.4944
+  },
+  "notes": "RETROSPECTIVE NOTE citing metrics from the return-forecast-lstm README synthetic run table - not a live PnL claim.",
+  "retrospective": true
+}
